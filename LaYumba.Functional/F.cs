@@ -77,7 +77,7 @@ namespace LaYumba.Functional
          using (var disp = disposable) return func(disp);
       }
 
-      public static Unit Using<TDisp>(TDisp disposable
+        public static Unit Using<TDisp>(TDisp disposable
          , Action<TDisp> act) where TDisp : IDisposable 
          => Using(disposable, act.ToFunc());
       

@@ -35,5 +35,5 @@ namespace Examples.Chapter1.DbLogger
       public static R Connect<R>(string connString, Func<IDbConnection, R> func)
          => Using(new SqlConnection(connString)
             , conn => { conn.Open(); return func(conn); });
-   }
+    }
 }
