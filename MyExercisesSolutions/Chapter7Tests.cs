@@ -49,5 +49,6 @@ namespace MyExercisesSolutions
             Assert.Equal(numberType, resultPhoneNumber.numberType);
             Assert.Equal(countryCode, resultPhoneNumber.countryCode);
         }
+
     }
 }

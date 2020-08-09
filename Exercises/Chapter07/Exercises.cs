@@ -61,29 +61,25 @@ namespace Exercises.Chapter7
 
             public static implicit operator string(CountryCode countryCode)
                 => countryCode.Value;
+
+            public override string ToString() => Value;
         }
 
         // Now define a ternary function that creates a new number, given values for these fields.
         // What's the signature of your factory function? 
         // (string, CountryCode, number) => PhoneNumber
-        public static Func<string, CountryCode, string, PhoneNumber> CreatePhoneNumber
-            => (numberType, countryCode, number)
+        public static Func<CountryCode, string, string, PhoneNumber> CreatePhoneNumber
+            = (countryCode, numberType, number)
                     => new PhoneNumber(numberType, countryCode, number);
 
         // Use partial application to create a binary function that creates a UK number, 
         // and then again to create a unary function that creates a UK mobile
-        public static Func<string, Func<string, PhoneNumber>> CreateUkNumber
-            => number
-            => numberType
-            => CreatePhoneNumber
-                .ApplyR(number)
-                .ApplyR(new CountryCode("uk"))
-                (numberType);
+        public static Func<string, string, PhoneNumber> CreateUkNumber
+            = CreatePhoneNumber
+                .Apply((CountryCode)"uk");
 
         public static Func<string, PhoneNumber> CreateUkMobileNumber
-            => (number)
-            => CreateUkNumber(number)
-               .("mobile");
+            = CreateUkNumber.Apply("Mobile");
 
         // 3. Functions everywhere. You may still have a feeling that objects are ultimately 
         // more powerful than functions. Surely, a logger object should expose methods 
@@ -97,5 +93,9 @@ namespace Exercises.Chapter7
             //   => log.Info("look! no objects!");
 
         enum Level { Debug, Info, Error }
+
+
+        // 5.
+
    }
 }
