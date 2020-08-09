@@ -4,6 +4,7 @@ using System.Text;
 using Xunit;
 using LaYumba.Functional;
 using static LaYumba.Functional.F;
+using FsCheck.Xunit;
 
 namespace MyExercisesSolutions
 {
@@ -53,6 +54,19 @@ namespace MyExercisesSolutions
             Option<int> result = multBy3.Apply(None);
 
             Assert.Equal(None, result);
+        }
+        
+        [Property]
+        public void ApplicativeLawHolds(int a, int b)
+        {
+            var first = Some(multiplyNotCurried)
+                .Apply(Some(a))
+                .Apply(Some(b));
+            var second = Some(a)
+                .Map(multiplyNotCurried)
+                .Apply(b);
+
+            Assert.Equal(first, second);
         }
     }
 }
