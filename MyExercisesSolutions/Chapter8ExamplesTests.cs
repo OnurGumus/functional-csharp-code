@@ -56,6 +56,11 @@ namespace MyExercisesSolutions
             Assert.Equal(None, result);
         }
         
+        /// <summary>
+        /// Property based test
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
         [Property]
         public void ApplicativeLawHolds(int a, int b)
         {
@@ -63,6 +68,19 @@ namespace MyExercisesSolutions
                 .Apply(Some(a))
                 .Apply(Some(b));
             var second = Some(a)
+                .Map(multiplyNotCurried)
+                .Apply(Some(b));
+
+            Assert.Equal(first, second);
+        }
+
+        [Property(Arbitrary = new[] { typeof(ArbitraryOption) })]
+        public void ApplicativeLawHoldsForOptions(Option<int> a, Option<int> b)
+        {
+            var first = Some(multiplyNotCurried)
+                .Apply(a)
+                .Apply(b);
+            var second = a
                 .Map(multiplyNotCurried)
                 .Apply(b);
 
